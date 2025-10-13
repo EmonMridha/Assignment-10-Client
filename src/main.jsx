@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         Component:Home
       },
       {
-        path:'/allPlants',
+        path:'/addPlants',
         Component:AddPlant
       },
       {
