@@ -3,10 +3,13 @@ import { AuthContext } from '../Context/AuthContext';
 import Swal from 'sweetalert2';
 import { updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebase.init';
+import { useNavigate } from 'react-router';
 
 const Register = () => {
 
     const { createUser, setUser } = useContext(AuthContext) // here we are getting the userInfo object and destructuring them
+
+    const navigate = useNavigate();
 
     const handleSignUp = e => {
         e.preventDefault();
@@ -45,11 +48,18 @@ const Register = () => {
                             photo: auth.currentUser.photoURL
                         });
 
+                        navigate('/')
+
                     })
 
             })
             .catch(error => {
-                console.log(error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong in in register!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
             })
     }
 
