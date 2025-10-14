@@ -1,7 +1,30 @@
-import React from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router';
+import { AuthContext } from '../Context/AuthContext';
+import Swal from 'sweetalert2';
 
 const Header = () => {
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut().then(() => {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Logged Out successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }).catch((error) => {
+            Swal.fire({
+                title: "Sweet!",
+                text: "An error occured while logging out",
+                imageUrl: "https://unsplash.it/400/200",
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: "Custom image"
+            });
+        });
+    }
     return (
         <div className="navbar bg-base-100 shadow-sm">
             <div className="navbar-start">
@@ -37,12 +60,21 @@ const Header = () => {
                     <Link to='/allPlants'>All Plants</Link>
                     <Link to='/addPlants'>Add Plant</Link>
                     <Link to='/myPlants'>My Plants</Link>
-
                 </ul>
             </div>
+
             <div className="navbar-end gap-5">
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
+                {user ?
+                    <div className='flex justify-center items-center flex-col'>
+                        <img className='w-10 cursor-pointer rounded-b-full' title={user?.displayName || 'User'} src={user.photoURL} alt="" />
+                        <button onClick={handleLogOut} className='btn'>Logout</button>
+                    </div> : (
+                        <div>
+                            <Link className='btn' to='/login'>Login</Link>
+                            <Link className='btn' to='/register'>Register</Link>
+                        </div>
+                    )}
+
             </div>
         </div>
 

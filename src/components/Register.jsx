@@ -1,27 +1,79 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../Context/AuthContext';
+import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
+import { auth } from '../firebase/firebase.init';
 
 const Register = () => {
+
+    const { createUser, setUser } = useContext(AuthContext) // here we are getting the userInfo object and destructuring them
+
+    const handleSignUp = e => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const formData = new FormData(form);
+        const email = formData.get('email')
+        const password = formData.get('password')
+
+        // Create User in the firebase
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                updateProfile(auth.currentUser, {
+                    displayName: name,
+                    photoURL: photo
+                })
+                    .then(() => {
+                        setUser({
+                            ...user,
+                            displayName: name,
+                            photoURL: photo
+                        });
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Registered Successfully!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                        console.log("✅ User profile updated:", {
+                            name: auth.currentUser.displayName,
+                            photo: auth.currentUser.photoURL
+                        });
+
+                    })
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">SignUp now!</h1>
-                    
+
                 </div>
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                     <div className="card-body">
-                        <fieldset className="fieldset">
+                        <form onSubmit={handleSignUp} className="fieldset">
                             <label className="label">Name</label>
-                            <input type="text" className="input" placeholder="Name" />
+                            <input type="text" name='name' className="input" placeholder="Name" />
                             <label className="label">Email</label>
-                            <input type="email" className="input" placeholder="Email" />
+                            <input type="email" name='email' className="input" placeholder="Email" />
                             <label className="label">PhotoURL</label>
-                            <input type="URL" className="input" placeholder="Photo URL" />
+                            <input type="URL" name='photo' className="input" placeholder="Photo URL" />
                             <label className="label">Password</label>
-                            <input type="password"  pattern="(?=.*[a-z])(?=.*[A-Z]).{6,}" className="input" placeholder="Password" />
+                            <input type="password" name='password' pattern="(?=.*[a-z])(?=.*[A-Z]).{6,}" className="input" placeholder="Password" />
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-neutral mt-4">SignUp</button>
-                        </fieldset>
+                        </form>
                     </div>
                 </div>
             </div>

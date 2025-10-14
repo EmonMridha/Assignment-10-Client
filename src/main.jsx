@@ -13,39 +13,40 @@ import AddPlants from './components/AddPlants.jsx';
 import MyPlants from './components/MyPlants.jsx';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
+import AuthProvider from './Context/AuthProvider.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component:MainLayout,
+    Component: MainLayout,
     children: [
       {
-        index:true,
-        Component:Home
+        index: true,
+        Component: Home
       },
       {
-        path:'/addPlants',
-        Component:AddPlant
+        path: '/addPlants',
+        Component: AddPlant
       },
       {
-        path:'/allPlants',
-        Component:AllPlants
+        path: '/allPlants',
+        Component: AllPlants
       },
       {
-        path:'/addPlants',
-        Component:AddPlant
+        path: '/addPlants',
+        Component: AddPlant
       },
       {
-        path:'/myPlants',
-        Component:MyPlants
+        path: '/myPlants',
+        Component: MyPlants
       },
       {
-        path:'/login',
-        Component:Login
+        path: '/login',
+        Component: Login
       },
       {
-        path:'/register',
-        Component:Register
+        path: '/register',
+        Component: Register
       }
     ]
   },
@@ -53,6 +54,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
