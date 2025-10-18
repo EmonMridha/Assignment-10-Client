@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
+import Swal from 'sweetalert2';
 
 const AddPlant = () => {
 
-    const {user} = useContext(AuthContext); // Getting current logged in user
-    const [formData, setFormData] = useState({
+    const { user } = useContext(AuthContext); // Getting current logged in user
+    const [newPlant, setNewPlant] = useState({
         image: '',
         name: '',
         category: '',
@@ -14,34 +15,57 @@ const AddPlant = () => {
         lastWateredDate: '',
         nextWateringDate: '',
         healthStatus: '',
-        email:'',
-        userName:''
+        email: '',
+        userName: ''
     });
 
-    useEffect(()=>{
-        if(user){
-            setFormData(prev=>({
+
+    useEffect(() => {
+        if (user) {
+            setNewPlant(prev => ({
                 ...prev,
-                email:user.email || '',
+                email: user.email || '',
                 userName: user.displayName || ''
             }))
         }
-    },[user])
+    }, [user])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setNewPlant({ ...newPlant, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const addCoffee = (e) => {
         e.preventDefault();
-        console.log('Plant added:', formData);
-        alert('Plant added successfully!');
+        console.log('Plant added:', newPlant);
+
+        // Send newPlant data to the server
+
+        fetch('http://localhost:3000/plants', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(newPlant) // Convert newPlant object to JSON string and send to server then server will send it to database
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('after adding new plant to db', data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+
+
     };
     return (
         <div className="flex justify-center items-center py-10 bg-base-200 min-h-screen">
             <form
-                onSubmit={handleSubmit}
+                onSubmit={addCoffee}
                 className="bg-white shadow-lg rounded-2xl p-6 md:p-10 w-full max-w-3xl"
             >
                 <h2 className="text-4xl font-semibold text-red-700 text-center mb-6">Add New Plant</h2>
@@ -51,9 +75,9 @@ const AddPlant = () => {
                     <div>
                         <label className="block text-black text-sm font-medium mb-1">Image URL</label>
                         <input
-                            type="text"
+                            type="url"
                             name="image"
-                            value={formData.image}
+                            value={newPlant.image}
                             onChange={handleChange}
                             placeholder="Enter image URL"
                             className="input input-bordered w-full"
@@ -67,7 +91,7 @@ const AddPlant = () => {
                         <input
                             type="text"
                             name="name"
-                            value={formData.name}
+                            value={newPlant.name}
                             onChange={handleChange}
                             placeholder="Enter plant name"
                             className="input input-bordered w-full"
@@ -80,7 +104,7 @@ const AddPlant = () => {
                         <label className="block text-black text-sm font-medium mb-1">Category</label>
                         <select
                             name="category"
-                            value={formData.category}
+                            value={newPlant.category}
                             onChange={handleChange}
                             className="select select-bordered w-full"
                             required
@@ -99,7 +123,7 @@ const AddPlant = () => {
                         <label className="block text-black text-sm font-medium mb-1">Care Level</label>
                         <select
                             name="careLevel"
-                            value={formData.careLevel}
+                            value={newPlant.careLevel}
                             onChange={handleChange}
                             className="select select-bordered w-full"
                             required
@@ -117,7 +141,7 @@ const AddPlant = () => {
                         <input
                             type="text"
                             name="wateringFrequency"
-                            value={formData.wateringFrequency}
+                            value={newPlant.wateringFrequency}
                             onChange={handleChange}
                             placeholder="e.g., every 3 days"
                             className="input input-bordered w-full"
@@ -131,7 +155,7 @@ const AddPlant = () => {
                         <input
                             type="text"
                             name="healthStatus"
-                            value={formData.healthStatus}
+                            value={newPlant.healthStatus}
                             onChange={handleChange}
                             placeholder="e.g., healthy, wilting"
                             className="input input-bordered w-full"
@@ -145,7 +169,7 @@ const AddPlant = () => {
                         <input
                             type="date"
                             name="lastWateredDate"
-                            value={formData.lastWateredDate}
+                            value={newPlant.lastWateredDate}
                             onChange={handleChange}
                             className="input input-bordered w-full"
                             required
@@ -158,7 +182,7 @@ const AddPlant = () => {
                         <input
                             type="date"
                             name="nextWateringDate"
-                            value={formData.nextWateringDate}
+                            value={newPlant.nextWateringDate}
                             onChange={handleChange}
                             className="input input-bordered w-full"
                             required
@@ -170,11 +194,11 @@ const AddPlant = () => {
                         <input
                             type="email"
                             name="email"
-                            value={formData.email}
+                            value={newPlant.email}
                             onChange={handleChange}
                             className="input input-bordered w-full"
                             readOnly
-                            
+
                         />
                     </div>
                     {/* User Name */}
@@ -183,7 +207,7 @@ const AddPlant = () => {
                         <input
                             type="text"
                             name="userName"
-                            value={formData.userName}
+                            value={newPlant.userName}
                             onChange={handleChange}
                             className="input input-bordered w-full"
                             readOnly
@@ -196,7 +220,7 @@ const AddPlant = () => {
                     <label className="block text-black text-sm font-medium mb-1">Description</label>
                     <textarea
                         name="description"
-                        value={formData.description}
+                        value={newPlant.description}
                         onChange={handleChange}
                         placeholder="Write a short description of the plant"
                         className="textarea textarea-bordered w-full h-24"
