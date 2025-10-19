@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { Link } from "react-router";
+import MyPlantCard from "./myPlantCard";
 
 
 const MyPlants = () => {
@@ -12,18 +14,17 @@ const MyPlants = () => {
             fetch(`http://localhost:3000/userPlants/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
-                    setPlants(data);
-                    console.log(data);
+                    setPlants(data); // All plants data added by the logged in user
                 })
         }
-    },[user])
-
-    
+    }, [user])
 
 
     return (
         <div>
-
+            {
+                plants.map(plant => <MyPlantCard key={plant._id} plant={plant}></MyPlantCard>)
+            }
         </div>
     );
 };
