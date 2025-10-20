@@ -1,9 +1,27 @@
-import React from 'react';
-import { Link, useLoaderData } from 'react-router';
+import { Link, useLoaderData, useNavigation } from 'react-router';
+import Spinner from './Spinner';
 
 const AllPlants = () => {
     const fetchedPlants = useLoaderData();
-    console.log(fetchedPlants);
+    const navigation = useNavigation();
+
+    const sortedPlants = [...fetchedPlants].sort((a,b) => {
+        const parseDate = (dateStr) => {
+            if (!dateStr) return null;
+            const [day, month, year] = dateStr.split('/');
+            return new Date(`${year}-${month}-${day}`);
+        };
+        const dateA = parseDate(a.nextWateringDate);
+        const dateB = parseDate(b.nextWateringDate);
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+        return dateA - dateB;
+    }
+    )
+
+    if (navigation.state === 'loading') {
+        return <Spinner></Spinner>;
+    }
     return (
         <div>
             <h1 className='text-white text-center text-4xl mt-30 mb-[-100px]'>All Added Plants</h1>
@@ -13,15 +31,17 @@ const AllPlants = () => {
                         <tr>
                             <th>Plant Name</th>
                             <th>Category</th>
+                            <th>Next Water</th>
                             <th>Watering Frequency</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {fetchedPlants.map(plant => (
+                        {sortedPlants.map(plant => (
                             <tr key={plant._id}>
                                 <td className='font-bold'>{plant.name}</td>
                                 <td>{plant.category}</td>
+                                <td>{plant.nextWateringDate ?plant.nextWateringDate : 'N/A'}</td>
                                 <td>Every {plant.wateringFrequency} days</td>
                                 <td>
                                     <Link to={`/plants/${plant._id}`} className="btn btn-sm btn-info">

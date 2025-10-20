@@ -16,11 +16,13 @@ import Register from './components/Register.jsx';
 import AuthProvider from './Context/AuthProvider.jsx';
 import ViewDetails from './components/ViewDetails.jsx';
 import Update from './components/Update.jsx';
+import Error from './components/Error.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
+    errorElement: <Error></Error>,
     children: [
       {
         index: true,

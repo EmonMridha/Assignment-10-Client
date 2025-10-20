@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NewPlant from './NewPlant';
 import TopPlantMistakes from './TopPlantMistakes';
 import BeginnerFriendlyPlants from './BeginnerFriendlyPlants';
 
+
+
 const Home = () => {
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+    useEffect(() => {
+        const root = document.documentElement;
+        if (theme === 'dark') {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+        }
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
+
     return (
-        <div>
-           
+        <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen transition-colors duration-300">
+
+            <div className="flex justify-end p-4">
+                <button
+                    onClick={toggleTheme}
+                    className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-black dark:text-white transition"
+                >
+                    {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+                </button>
+                
+            </div>
             <div className="flex justify-center my-10 px-2 md:px-10">
                 <div className="carousel w-full md:w-10/12 rounded-2xl overflow-hidden shadow-lg">
-                   
+
                     <div id="slide1" className="carousel-item relative w-full">
                         <img
                             src="https://i.ibb.co.com/8nSrgZZP/pexels-agnieszka-palmowska-23342-631909.jpg"
@@ -26,7 +51,7 @@ const Home = () => {
                         <a href="#slide2" className="btn btn-circle absolute right-3 sm:right-5 top-1/2 transform -translate-y-1/2">❯</a>
                     </div>
 
-                   
+
                     <div id="slide2" className="carousel-item relative w-full">
                         <img
                             src="public/pexels-gochrisgoxyz-1477166.jpg"
@@ -43,7 +68,7 @@ const Home = () => {
                         <a href="#slide3" className="btn btn-circle absolute right-3 sm:right-5 top-1/2 transform -translate-y-1/2">❯</a>
                     </div>
 
-                   
+
                     <div id="slide3" className="carousel-item relative w-full">
                         <img
                             src="public/pexels-mdsnmdsnmdsn-788485.jpg"
@@ -62,7 +87,7 @@ const Home = () => {
                 </div>
             </div>
 
-            
+
             <NewPlant />
             <TopPlantMistakes />
             <BeginnerFriendlyPlants></BeginnerFriendlyPlants>

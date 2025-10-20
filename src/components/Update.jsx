@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { AuthContext } from '../Context/AuthContext';
 import { useLoaderData } from 'react-router';
 
@@ -5,6 +6,33 @@ const Update = () => {
     const { _id, imageUrl, name, wateringFrequency, lastWateredDate, nextWateringDate, healthStatus, email, userName, category, careLevel, description } = useLoaderData();
     const handleUpdatePlant = e => {
         e.preventDefault();
+        const form = e.target;
+        const updatedData = new FormData(form);
+        const updatedPlant = Object.fromEntries(updatedData)
+        console.log(updatedPlant);
+
+
+        //  send updated plant data to the server 
+
+        fetch(`http://localhost:3000/plants/${_id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedPlant)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Updated Successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
 
     return (
@@ -39,7 +67,7 @@ const Update = () => {
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Category</label>
-                    <select defaultValue={category} className="select select-bordered w-full ">
+                    <select defaultValue={category} name='category' className="select select-bordered w-full ">
                         <option disabled >Select Category</option>
                         <option>Succulent</option>
                         <option>Fern</option>
@@ -53,6 +81,7 @@ const Update = () => {
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Description</label>
                     <textarea
+                        name='description'
                         defaultValue={description}
                         placeholder="Write a short description"
                         className="textarea textarea-bordered w-full"
@@ -63,14 +92,13 @@ const Update = () => {
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Care Level</label>
-                    <select defaultValue={careLevel} className="select select-bordered w-full">
+                    <select name='careLevel' defaultValue={careLevel} className="select select-bordered w-full">
                         <option disabled selected>Select Care Level</option>
                         <option>Easy</option>
                         <option>Moderate</option>
                         <option>Difficult</option>
                     </select>
                 </div>
-
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Watering Frequency</label>
