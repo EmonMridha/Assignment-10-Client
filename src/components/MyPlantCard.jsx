@@ -34,11 +34,6 @@ const MyPlantCard = ({ plant }) => {
             }
         });
 
-
-
-
-
-
     }
     return (
         <div class="max-w-4xl mx-auto bg-white my-20 shadow-lg rounded-2xl overflow-hidden flex flex-col md:flex-row">
@@ -104,7 +99,7 @@ const MyPlantCard = ({ plant }) => {
 
                     <div class="flex gap-2">
                         <Link to='/allPlants' class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">Back</Link>
-                        <Link className='btn border-none bg-pink-600' to='update/:id'>Update</Link>
+                        <Link className='btn border-none bg-pink-600' to={`/update/${_id}`}>Update</Link>
                         <Link onClick={() => handleDelete(_id)} className='btn border-none bg-red-800'>Delete</Link>
                     </div>
                 </div>

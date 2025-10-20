@@ -15,6 +15,7 @@ import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 import AuthProvider from './Context/AuthProvider.jsx';
 import ViewDetails from './components/ViewDetails.jsx';
+import Update from './components/Update.jsx';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,11 @@ const router = createBrowserRouter([
         path:'/plants/:id', // here we get the id parameter from the url
         loader: ({params}) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
         Component: ViewDetails
+      },
+      {
+        path:'/update/:id',
+        loader: ({params}) => fetch(`http://localhost:3000/plants/${params.id}`),
+        Component: Update
       }
     ]
   },

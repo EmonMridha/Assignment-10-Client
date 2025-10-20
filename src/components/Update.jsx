@@ -1,44 +1,18 @@
-import React, { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-import Swal from 'sweetalert2';
+import { useLoaderData } from 'react-router';
 
-const AddPlant = () => {
-    const { user } = useContext(AuthContext); // get logged in user from AuthProvider
-
-    const handleAddPlant = e => {
+const Update = () => {
+    const { _id, imageUrl, name, wateringFrequency, lastWateredDate, nextWateringDate, healthStatus, email, userName, category, careLevel, description } = useLoaderData();
+    const handleUpdatePlant = e => {
         e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const newPlant = Object.fromEntries(formData.entries());
-        console.log(newPlant);
-
-        // send plant data to the server
-        fetch('http://localhost:3000/plants', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newPlant)
-        })
-            .then(res => res.json())
-            .then(data => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "New plant data has been saved",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
     }
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-base-200 p-4">
-            <form onSubmit={handleAddPlant} className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-xl">
+            <form onSubmit={handleUpdatePlant} className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-xl">
                 <h2 className="text-3xl font-bold text-center mb-6 text-green-600">
-                    Add Plant
+                    Update Plant
                 </h2>
-
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Image URL</label>
@@ -47,9 +21,9 @@ const AddPlant = () => {
                         name='imageUrl'
                         placeholder="Enter image URL"
                         className="input input-bordered w-full"
+                        defaultValue={imageUrl}
                     />
                 </div>
-
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Plant Name</label>
@@ -57,6 +31,7 @@ const AddPlant = () => {
                         type="text"
                         name='name'
                         placeholder="Enter plant name"
+                        defaultValue={name}
                         className="input input-bordered w-full"
                     />
                 </div>
@@ -64,8 +39,8 @@ const AddPlant = () => {
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Category</label>
-                    <select className="select select-bordered w-full" name='category'>
-                        <option disabled selected>Select Category</option>
+                    <select defaultValue={category} className="select select-bordered w-full ">
+                        <option disabled >Select Category</option>
                         <option>Succulent</option>
                         <option>Fern</option>
                         <option>Flowering</option>
@@ -78,7 +53,7 @@ const AddPlant = () => {
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Description</label>
                     <textarea
-                        name='description'
+                        defaultValue={description}
                         placeholder="Write a short description"
                         className="textarea textarea-bordered w-full"
                         rows="3"
@@ -88,7 +63,7 @@ const AddPlant = () => {
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Care Level</label>
-                    <select className="select select-bordered w-full" name='careLevel'>
+                    <select defaultValue={careLevel} className="select select-bordered w-full">
                         <option disabled selected>Select Care Level</option>
                         <option>Easy</option>
                         <option>Moderate</option>
@@ -104,25 +79,27 @@ const AddPlant = () => {
                         placeholder="e.g., every 3 days"
                         className="input input-bordered w-full"
                         name='wateringFrequency'
+                        defaultValue={wateringFrequency}
                     />
                 </div>
 
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Last Watered Date</label>
-                    <input type="date" name='lastWateredDate' className="input input-bordered w-full" />
+                    <input defaultValue={lastWateredDate} type="date" name='lastWateredDate' className="input input-bordered w-full" />
                 </div>
 
 
                 <div className="mb-4">
                     <label className="block text-black font-medium mb-1">Next Watering Date</label>
-                    <input type="date" name='nextWateringDate' className="input input-bordered w-full" />
+                    <input defaultValue={nextWateringDate} type="date" name='nextWateringDate' className="input input-bordered w-full" />
                 </div>
 
 
                 <div className="mb-6">
                     <label className="block text-black font-medium mb-1">Health Status</label>
                     <input
+                        defaultValue={healthStatus}
                         type="text"
                         name='healthStatus'
                         placeholder="e.g., healthy, wilting"
@@ -137,8 +114,9 @@ const AddPlant = () => {
                         name='email'
                         placeholder="e.g., healthy, wilting"
                         className="input input-bordered w-full"
-                        value={user?.email || ''}
-                        readOnly
+                        defaultValue={email}
+
+
                     />
                 </div>
 
@@ -149,8 +127,8 @@ const AddPlant = () => {
                         name='userName'
                         placeholder="e.g., healthy, wilting"
                         className="input input-bordered w-full"
-                        value={user?.displayName || ''}
-                        readOnly
+                        defaultValue={userName}
+
                     />
                 </div>
 
@@ -159,12 +137,11 @@ const AddPlant = () => {
                     type="submit"
                     className="btn btn-success w-full hover:bg-green-700 text-white font-semibold"
                 >
-                    Submit
+                    Update Plant
                 </button>
             </form>
         </div>
-
     );
 };
 
-export default AddPlant;
+export default Update;
