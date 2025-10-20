@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import NewPlant from './NewPlant';
 import TopPlantMistakes from './TopPlantMistakes';
 import BeginnerFriendlyPlants from './BeginnerFriendlyPlants';
+import { useLoaderData } from 'react-router';
 
 
 
 const Home = () => {
+
+    const loadedData = useLoaderData();
     const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
     useEffect(() => {
@@ -30,7 +33,7 @@ const Home = () => {
                 >
                     {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
                 </button>
-                
+
             </div>
             <div className="flex justify-center my-10 px-2 md:px-10">
                 <div className="carousel w-full md:w-10/12 rounded-2xl overflow-hidden shadow-lg">
@@ -88,7 +91,13 @@ const Home = () => {
             </div>
 
 
-            <NewPlant />
+            <div className='flex justify-center'>
+                <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+                    {
+                        loadedData.map(plant => <NewPlant key={plant._id} plant={plant}></NewPlant>)
+                    }
+                </div>
+            </div>
             <TopPlantMistakes />
             <BeginnerFriendlyPlants></BeginnerFriendlyPlants>
         </div>
