@@ -2,12 +2,16 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import { GoogleAuthProvider } from 'firebase/auth';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const { signIn, signInGoogle,  setUser } = useContext(AuthContext)
+
+    const from = location.state?.from?.pathname ||  '/';
+
     const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -24,7 +28,11 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+
+                navigate(from, {replace: true});
             })
+
+            
 
             .catch(error => {
                 Swal.fire({
@@ -48,7 +56,7 @@ const Login = () => {
                     timer: 1500
                 });
 
-                navigate('/')
+                navigate(from, {replace: true});
             })
 
             .catch(error => {

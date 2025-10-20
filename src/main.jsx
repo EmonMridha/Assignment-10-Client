@@ -17,6 +17,7 @@ import AuthProvider from './Context/AuthProvider.jsx';
 import ViewDetails from './components/ViewDetails.jsx';
 import Update from './components/Update.jsx';
 import Error from './components/Error.jsx';
+import Private from './components/Private.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,20 +32,22 @@ const router = createBrowserRouter([
       },
       {
         path: '/addPlants',
-        Component: AddPlant
+        Component: () => <Private>
+          <AddPlant></AddPlant>
+        </Private>
       },
       {
         path: '/allPlants',
         loader: () => fetch('http://localhost:3000/plants'),
-        Component: AllPlants
-      },
-      {
-        path: '/addPlants',
-        Component: AddPlant
+        Component: () => <Private>
+          <AllPlants></AllPlants>
+        </Private>
       },
       {
         path: '/myPlants',
-        Component: MyPlants
+        Component: () => <Private>
+          <MyPlants></MyPlants>
+        </Private>
       },
       {
         path: '/login',
@@ -55,13 +58,13 @@ const router = createBrowserRouter([
         Component: Register
       },
       {
-        path:'/plants/:id', // here we get the id parameter from the url
-        loader: ({params}) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
+        path: '/plants/:id', // here we get the id parameter from the url
+        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
         Component: ViewDetails
       },
       {
-        path:'/update/:id',
-        loader: ({params}) => fetch(`http://localhost:3000/plants/${params.id}`),
+        path: '/update/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
         Component: Update
       }
     ]
