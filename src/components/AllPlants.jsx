@@ -4,6 +4,7 @@ import Spinner from './Spinner';
 const AllPlants = () => {
     const fetchedPlants = useLoaderData();
     const navigation = useNavigation();
+    console.log(fetchedPlants);
 
     const sortedPlants = [...fetchedPlants].sort((a,b) => {
         const parseDate = (dateStr) => {

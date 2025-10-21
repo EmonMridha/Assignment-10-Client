@@ -14,9 +14,9 @@ const Footer = () => {
                 {/* Contact Info */}
                 <div className="mb-6 md:mb-0">
                     <h2 className="font-semibold text-white mb-2">Contact</h2>
-                    <p>Email: contact@plantopia.com</p>
+                    <p>Email: emonmridha712@gmail.com</p>
                     <p>Phone: +8801864154680</p>
-                    <p>Address: Dhaka, Bangladesh</p>
+                    <p>Address: Bata Goli Moghbazar, Dhaka, Bangladesh</p>
                 </div>
 
                 {/* Social Media Links */}

@@ -1,46 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Swal from 'sweetalert2';
+import { Link, useLoaderData } from 'react-router';
 
-const MyPlantCard = ({ plant, plants, setPlants }) => {
-    const { careLevel, category, description, healthStatus, image, lastWateredDate, name, nextWateringDate, wateringFrequency, _id } = plant;
-    const handleDelete = (id) => {
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                fetch(`http://localhost:3000/plants/${id}`, {
-                    method: 'DELETE'
-                }
-                )
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.deletedCount)
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-
-                            const remainingPlants = plants.filter(p => p._id !== id);
-                            setPlants(remainingPlants)
-                    })
-
-            }
-        });
-
-    }
+const ViewDetails2 = () => {
+    const {careLevel, category, description, email, healthStatus, image, lastWateredDate, name, nextWateringDate, userName, wateringFrequency, _id } = useLoaderData();
     return (
         <div class="max-w-4xl mx-auto bg-white my-20 shadow-lg rounded-2xl overflow-hidden flex flex-col md:flex-row">
-
+           
             <div class="md:w-1/2">
                 <img
                     src={image}
@@ -49,15 +14,15 @@ const MyPlantCard = ({ plant, plants, setPlants }) => {
                 />
             </div>
 
-
+            
             <div class="p-6 md:w-1/2 flex flex-col justify-between">
-
+                
                 <div>
                     <h2 class="text-2xl font-bold text-green-800 mb-2">{name}</h2>
                     <div class="flex flex-wrap gap-2 mb-4">
                         <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">{careLevel}</span>
                         <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">{category}</span>
-                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">Water every {wateringFrequency} days</span>
+                    <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-semibold">Water every {wateringFrequency} days</span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -98,12 +63,11 @@ const MyPlantCard = ({ plant, plants, setPlants }) => {
                     </div>
                 </div>
 
+               
                 <div class="mt-6 flex items-center justify-between">
 
                     <div class="flex gap-2">
-                        <Link to='/allPlants' class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">Back</Link>
-                        <Link className='btn border-none bg-pink-600' to={`/update/${_id}`}>Update</Link>
-                        <Link onClick={() => handleDelete(_id)} className='btn border-none bg-red-800'>Delete</Link>
+                        <Link to='/' class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">Back to Home</Link>
                     </div>
                 </div>
             </div>
@@ -111,4 +75,4 @@ const MyPlantCard = ({ plant, plants, setPlants }) => {
     );
 };
 
-export default MyPlantCard;
+export default ViewDetails2;

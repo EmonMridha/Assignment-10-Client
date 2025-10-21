@@ -40,7 +40,7 @@ const Home = () => {
 
                     <div id="slide1" className="carousel-item relative w-full">
                         <img
-                            src="https://i.ibb.co.com/8nSrgZZP/pexels-agnieszka-palmowska-23342-631909.jpg"
+                            src="https://i.ibb.co.com/QvN5cjWY/Screenshot-2025-10-13-172302.png"
                             alt="Nature Home"
                             className="w-full h-[250px] sm:h-[400px] md:h-[600px] object-cover"
                         />
@@ -57,7 +57,7 @@ const Home = () => {
 
                     <div id="slide2" className="carousel-item relative w-full">
                         <img
-                            src="public/pexels-gochrisgoxyz-1477166.jpg"
+                            src="pexels-gochrisgoxyz-1477166.jpg"
                             alt="Plant Care Tips"
                             className="w-full h-[250px] sm:h-[400px] md:h-[600px] object-cover"
                         />
@@ -74,7 +74,7 @@ const Home = () => {
 
                     <div id="slide3" className="carousel-item relative w-full">
                         <img
-                            src="public/pexels-mdsnmdsnmdsn-788485.jpg"
+                            src="pexels-mdsnmdsnmdsn-788485.jpg"
                             alt="Beginner-Friendly Plants"
                             className="w-full h-[250px] sm:h-[400px] md:h-[600px] object-cover"
                         />
@@ -94,7 +94,7 @@ const Home = () => {
             <div className='flex justify-center'>
                 <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                     {
-                        loadedData.map(plant => <NewPlant key={plant._id} plant={plant}></NewPlant>)
+                        [...loadedData].reverse().map(plant => <NewPlant key={plant._id} plant={plant}></NewPlant>)
                     }
                 </div>
             </div>

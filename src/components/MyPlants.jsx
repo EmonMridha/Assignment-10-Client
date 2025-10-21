@@ -31,7 +31,7 @@ const MyPlants = () => {
     return (
         <div>
             {
-                plants.map(plant => <MyPlantCard key={plant._id} plant={plant}></MyPlantCard>)
+                plants.map(plant => <MyPlantCard key={plant._id} plants={plants} plant={plant} setPlants={setPlants}></MyPlantCard>)
             }
         </div>
     );

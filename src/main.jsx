@@ -18,6 +18,7 @@ import ViewDetails from './components/ViewDetails.jsx';
 import Update from './components/Update.jsx';
 import Error from './components/Error.jsx';
 import Private from './components/Private.jsx';
+import ViewDetails2 from './components/ViewDetails2.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,12 +61,17 @@ const router = createBrowserRouter([
       {
         path: '/plants/:id', // here we get the id parameter from the url
         loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
-        Component: ViewDetails
+        Component: () => <Private><ViewDetails></ViewDetails></Private>
       },
       {
         path: '/update/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
-        Component: Update
+        Component: () => <Private><Update></Update></Private>
+      },
+      {
+        path: '/details2/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
+        Component: () => <Private><ViewDetails2></ViewDetails2></Private>
       }
     ]
   },
