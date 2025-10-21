@@ -23,55 +23,55 @@ import ViewDetails2 from './components/ViewDetails2.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: MainLayout,
+    element: <MainLayout></MainLayout>,
     errorElement: <Error></Error>,
     children: [
       {
         index: true,
         loader: () => fetch('http://localhost:3000/plants'),
-        Component: Home
+        element: <Home></Home>
       },
       {
         path: '/addPlants',
-        Component: () => <Private>
+        element:  <Private>
           <AddPlant></AddPlant>
         </Private>
       },
       {
         path: '/allPlants',
         loader: () => fetch('http://localhost:3000/plants'),
-        Component: () => <Private>
+        element:  <Private>
           <AllPlants></AllPlants>
         </Private>
       },
       {
         path: '/myPlants',
-        Component: () => <Private>
+        element:  <Private>
           <MyPlants></MyPlants>
         </Private>
       },
       {
         path: '/login',
-        Component: Login
+        element: <Login></Login>
       },
       {
         path: '/register',
-        Component: Register
+        element: <Register></Register>
       },
       {
         path: '/plants/:id', // here we get the id parameter from the url
         loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
-        Component: () => <Private><ViewDetails></ViewDetails></Private>
+        element: <Private><ViewDetails></ViewDetails></Private>
       },
       {
         path: '/update/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
-        Component: () => <Private><Update></Update></Private>
+        element: <Private><Update></Update></Private>
       },
       {
         path: '/details2/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
-        Component: () => <Private><ViewDetails2></ViewDetails2></Private>
+        element: <Private><ViewDetails2></ViewDetails2></Private>
       }
     ]
   },
