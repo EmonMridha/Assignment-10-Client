@@ -14,7 +14,7 @@ const Update = () => {
 
         //  send updated plant data to the server 
 
-        fetch(`http://localhost:3000/plants/${_id}`, {
+        fetch(`https://assignment-10-server-topaz-two.vercel.app/plants/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: () => fetch('http://localhost:3000/plants'),
+        loader: () => fetch('https://assignment-10-server-topaz-two.vercel.app/plants'),
         element: <Home></Home>
       },
       {
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/allPlants',
-        loader: () => fetch('http://localhost:3000/plants'),
+        loader: () => fetch('https://assignment-10-server-topaz-two.vercel.app/plants'),
         element:  <Private>
           <AllPlants></AllPlants>
         </Private>
@@ -60,17 +60,17 @@ const router = createBrowserRouter([
       },
       {
         path: '/plants/:id', // here we get the id parameter from the url
-        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`), // giving the id to the server to get specific plant details
+        loader: ({ params }) => fetch(`https://assignment-10-server-topaz-two.vercel.app/plants/${params.id}`), // giving the id to the server to get specific plant details
         element: <Private><ViewDetails></ViewDetails></Private>
       },
       {
         path: '/update/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
+        loader: ({ params }) => fetch(`https://assignment-10-server-topaz-two.vercel.app/plants/${params.id}`),
         element: <Private><Update></Update></Private>
       },
       {
         path: '/details2/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/plants/${params.id}`),
+        loader: ({ params }) => fetch(`https://assignment-10-server-topaz-two.vercel.app/plants/${params.id}`),
         element: <Private><ViewDetails2></ViewDetails2></Private>
       }
     ]

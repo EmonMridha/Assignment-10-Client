@@ -17,7 +17,7 @@ const MyPlantCard = ({ plant, plants, setPlants }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:3000/plants/${id}`, {
+                fetch(`https://assignment-10-server-topaz-two.vercel.app/plants/${id}`, {
                     method: 'DELETE'
                 }
                 )

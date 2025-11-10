@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import MyPlantCard from "./myPlantCard";
 import Spinner from "./Spinner";
 
-
 const MyPlants = () => {
 
     const { user } = useContext(AuthContext);
@@ -14,7 +13,7 @@ const MyPlants = () => {
     useEffect(() => {
         if (user?.email) {
             setLoading(true);
-            fetch(`http://localhost:3000/userPlants/${user.email}`)
+            fetch(`https://assignment-10-server-topaz-two.vercel.app/userPlants/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     setPlants(data); // All plants data added by the logged in user

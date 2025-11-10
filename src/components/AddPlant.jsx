@@ -13,7 +13,7 @@ const AddPlant = () => {
         console.log(newPlant);
 
         // send plant data to the server
-        fetch('http://localhost:3000/plants', {
+        fetch('https://assignment-10-server-topaz-two.vercel.app/plants', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
